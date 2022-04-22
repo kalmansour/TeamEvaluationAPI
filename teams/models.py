@@ -18,3 +18,11 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+class Team(models.Model):
+    name = models.CharField(max_length=120)
+    members = models.CharField(max_length=120)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="teams")
+
+    def __str__(self):
+        return self.name
