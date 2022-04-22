@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-from teams.models import Semester
+from teams.models import Semester, Project
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +19,17 @@ class CreateSemesterSerializer(serializers.ModelSerializer):
         model = Semester
         fields = ['name']
 
+class ProjectListSerializer(serializers.ModelSerializer):
+    semester = SemesterListSerializer()
+    class Meta:
+        model = Project
+        fields = ['id', 'name', 'weight', 'semester']
+
+class CreateProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ['name', 'weight']
+        
 class UserAdminRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
