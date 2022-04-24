@@ -19,16 +19,23 @@ class CreateSemesterSerializer(serializers.ModelSerializer):
         model = Semester
         fields = ['name']
 
+class CriteriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Criteria
+        fields = ['id', 'name', 'weight']
+
 class ProjectListSerializer(serializers.ModelSerializer):
     semester = SemesterListSerializer()
+    criteria = CriteriaSerializer(many=True)
     class Meta:
         model = Project
-        fields = ['id', 'name', 'weight', 'semester']
+        fields = ['id', 'name', 'weight', 'semester', 'criteria']
 
 class CreateProjectSerializer(serializers.ModelSerializer):
+    criteria = CriteriaSerializer(many=True)
     class Meta:
         model = Project
-        fields = ['name', 'weight']
+        fields = ['name', 'weight', 'criteria']
 
 class TeamListSerializer(serializers.ModelSerializer):
     project = ProjectListSerializer()

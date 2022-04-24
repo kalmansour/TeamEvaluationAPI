@@ -2,6 +2,11 @@ from .serializers import CreateSemesterSerializer, UserAdminRegisterSerializer,M
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAdminUser
+from rest_framework import viewsets
+from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 from .models import Semester, Project, Team, Criteria
 
@@ -18,7 +23,7 @@ class SemesterListView(ListAPIView):
 class CreateSemesterView(CreateAPIView):
     serializer_class = CreateSemesterSerializer
     permission_classes = [IsAdminUser]
-
+    
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)
 
@@ -26,13 +31,26 @@ class ProjectListView(ListAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectListSerializer
 
-class CreateProjectView(CreateAPIView):
+class CreateProjectViewSet(viewsets.ModelViewSet):
     serializer_class = CreateProjectSerializer
     permission_classes = [IsAdminUser]
 
-    def perform_create(self, serializer ):
-        semester = Semester.objects.get(id=self.kwargs['semester_id'])
-        serializer.save(semester=semester)
+    @csrf_exempt
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        new_project = Project.objects.create(
+            name=data["name"], weight=data['weight'], semester =Semester.objects.get(id=self.kwargs['semester_id']) )
+
+        new_project.save()
+
+        for criteria in data["criteria"]:
+            criteria_obj = Criteria.objects.get(name=criteria)
+            new_project.criteria.add(criteria_obj)
+
+        serializer = CreateProjectSerializer(new_project)
+
+        return Response(serializer.data)
 
 class TeamListView(ListAPIView):
     queryset = Team.objects.all()
