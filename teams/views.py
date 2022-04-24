@@ -1,4 +1,4 @@
-from .serializers import CreateSemesterSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer,CriteriaListSerializer
+from .serializers import CreateSemesterSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer,CriteriaListSerializer,CreateCriteriaSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAdminUser
@@ -67,3 +67,8 @@ class CreateTeamView(CreateAPIView):
 class CriteriaListView(ListAPIView):
     queryset = Criteria.objects.all()
     serializer_class = CriteriaListSerializer
+
+class CreateCriteriaView(CreateAPIView):
+    serializer_class = CreateCriteriaSerializer
+    permission_classes = [IsAdminUser]
+

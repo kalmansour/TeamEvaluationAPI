@@ -27,6 +27,7 @@ urlpatterns = [
     path('teams/',views.TeamListView.as_view(), name='teams-list'),
     path('team/<int:project_id>/',views.CreateTeamView.as_view(), name='create-team'),
     path('criterias/',views.CriteriaListView.as_view(), name='criterias-list'),
+    path('criteria/',views.CreateCriteriaView.as_view(), name='create-criteria'),
     path('user/login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(),name='token_refresh'),
     path('user/register/', views.UserAdminRegister.as_view(), name='user-register'),

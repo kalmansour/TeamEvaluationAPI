@@ -52,6 +52,11 @@ class CriteriaListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Criteria
         fields = ['id', 'name', 'weight']
+
+class CreateCriteriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Criteria
+        fields = ['name', 'weight']
         
 class UserAdminRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
