@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path
 from teams import views
 from rest_framework_simplejwt.views import (TokenRefreshView)
-from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     path('admin/', admin.site.urls),
