@@ -26,3 +26,10 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name
+
+class Criteria(models.Model):
+    name = models.CharField(max_length=120)
+    weight = models.PositiveIntegerField(default=10, validators=[MinValueValidator(1), MaxValueValidator(100)])
+
+    def __str__(self):
+        return self.name

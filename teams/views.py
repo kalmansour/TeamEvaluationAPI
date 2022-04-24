@@ -1,9 +1,9 @@
-from .serializers import CreateSemesterSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer
+from .serializers import CreateSemesterSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer,CriteriaListSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAdminUser
 
-from .models import Semester, Project, Team
+from .models import Semester, Project, Team, Criteria
 
 class UserAdminRegister(CreateAPIView):
     serializer_class = UserAdminRegisterSerializer
@@ -45,3 +45,7 @@ class CreateTeamView(CreateAPIView):
     def perform_create(self, serializer ):
         project = Project.objects.get(id=self.kwargs['project_id'])
         serializer.save(project=project)
+
+class CriteriaListView(ListAPIView):
+    queryset = Criteria.objects.all()
+    serializer_class = CriteriaListSerializer
