@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from teams.models import Semester, Project, Team
+from teams.models import Criteria, Semester, Project, Team
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,16 +19,23 @@ class CreateSemesterSerializer(serializers.ModelSerializer):
         model = Semester
         fields = ['name']
 
+class CriteriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Criteria
+        fields = ['id', 'name', 'weight']
+
 class ProjectListSerializer(serializers.ModelSerializer):
     semester = SemesterListSerializer()
+    criteria = CriteriaSerializer(many=True)
     class Meta:
         model = Project
-        fields = ['id', 'name', 'weight', 'semester']
+        fields = ['id', 'name', 'weight', 'semester', 'criteria']
 
 class CreateProjectSerializer(serializers.ModelSerializer):
+    criteria = CriteriaSerializer(many=True)
     class Meta:
         model = Project
-        fields = ['name', 'weight']
+        fields = ['name', 'weight', 'criteria']
 
 class TeamListSerializer(serializers.ModelSerializer):
     project = ProjectListSerializer()
@@ -40,6 +47,16 @@ class CreateTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ['name', 'members']
+
+class CriteriaListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Criteria
+        fields = ['id', 'name', 'weight']
+
+class CreateCriteriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Criteria
+        fields = ['name', 'weight']
         
 class UserAdminRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
