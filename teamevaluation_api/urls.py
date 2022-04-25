@@ -24,6 +24,7 @@ urlpatterns = [
     path('semester/',views.CreateSemesterView.as_view(), name='create-semester'),
     path('projects/',views.ProjectListView.as_view(), name='projects-list'),
     path('project/<int:semester_id>/',views.CreateProjectViewSet.as_view({'post': 'create'}), name='create-project'),
+    path('projects/<int:project_id>/',views.ProjectDetailsView.as_view(), name='project-details'),
     path('teams/',views.TeamListView.as_view(), name='teams-list'),
     path('team/<int:project_id>/',views.CreateTeamView.as_view(), name='create-team'),
     path('criterias/',views.CriteriaListView.as_view(), name='criterias-list'),

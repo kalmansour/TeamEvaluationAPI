@@ -1,7 +1,7 @@
-from .serializers import CreateSemesterSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer,CriteriaListSerializer,CreateCriteriaSerializer
+from .serializers import CreateSemesterSerializer, ProjectDetailsSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer,CriteriaListSerializer,CreateCriteriaSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.generics import ListAPIView, CreateAPIView
-from rest_framework.permissions import IsAdminUser
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
@@ -30,6 +30,13 @@ class CreateSemesterView(CreateAPIView):
 class ProjectListView(ListAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectListSerializer
+
+class ProjectDetailsView(RetrieveAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectDetailsSerializer
+    lookup_field = 'id'
+    lookup_url_kwarg = 'project_id'
+    permission_classes = [IsAdminUser]
 
 class CreateProjectViewSet(viewsets.ModelViewSet):
     serializer_class = CreateProjectSerializer
