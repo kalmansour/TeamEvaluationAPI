@@ -34,9 +34,14 @@ class ProjectListSerializer(serializers.ModelSerializer):
 class ProjectDetailsSerializer(serializers.ModelSerializer):
     semester = SemesterListSerializer()
     criteria = CriteriaSerializer(many=True)
+    detail = serializers.HyperlinkedIdentityField(
+        view_name = "project-details",
+        lookup_field = "id",
+        lookup_url_kwarg = "project_id"
+        )
     class Meta:
         model = Project
-        fields = ['id', 'name', 'weight', 'semester', 'criteria']
+        fields = ['id', 'name', 'weight', 'semester', 'criteria','detail']
 
 class CreateProjectSerializer(serializers.ModelSerializer):
     criteria = CriteriaSerializer(many=True)
