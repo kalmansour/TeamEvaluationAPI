@@ -36,7 +36,6 @@ class ProjectDetailsView(RetrieveAPIView):
     serializer_class = ProjectDetailsSerializer
     lookup_field = 'id'
     lookup_url_kwarg = 'project_id'
-    permission_classes = [IsAdminUser]
 
 class CreateProjectViewSet(viewsets.ModelViewSet):
     serializer_class = CreateProjectSerializer
