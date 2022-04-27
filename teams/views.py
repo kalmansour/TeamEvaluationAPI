@@ -1,4 +1,4 @@
-from .serializers import CreateSemesterSerializer, ProjectDetailsSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer,CriteriaListSerializer,CreateCriteriaSerializer
+from .serializers import CreateSemesterSerializer, ProjectDetailsSerializer, UserAdminRegisterSerializer,MyTokenObtainPairSerializer,SemesterListSerializer, ProjectListSerializer, CreateProjectSerializer, TeamListSerializer, CreateTeamSerializer,CriteriaListSerializer,CreateCriteriaSerializer, CreateCriteriaScoreSerializer,CriteriaScoreListSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 
-from .models import Semester, Project, Team, Criteria
+from .models import Semester, Project, Team, Criteria, CriteriaScore
 
 class UserAdminRegister(CreateAPIView):
     serializer_class = UserAdminRegisterSerializer
@@ -78,3 +78,22 @@ class CreateCriteriaView(CreateAPIView):
     serializer_class = CreateCriteriaSerializer
     permission_classes = [IsAdminUser]
 
+class CreateCriteriaScoreView(viewsets.ModelViewSet):
+    serializer_class = CreateCriteriaScoreSerializer
+
+    @csrf_exempt
+    def create(self, request, *args, **kwargs):
+        data = request.data
+
+        new_score = CriteriaScore.objects.create(
+           team=Team.objects.get(id=self.kwargs['team_id']), criteria = Criteria.objects.get(id=self.kwargs['criteria_id']), judge = data['judge'], score = data['score'] )
+
+        new_score.save()
+
+        serializer = CreateCriteriaScoreSerializer(new_score)
+
+        return Response(serializer.data)
+
+class CriteriaScoreListView(ListAPIView):
+    queryset = CriteriaScore.objects.all()
+    serializer_class = CriteriaScoreListSerializer

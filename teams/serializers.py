@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from teams.models import Criteria, Semester, Project, Team
+from teams.models import Criteria, Semester, Project, Team, CriteriaScore
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -100,3 +100,16 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # ...
 
         return token
+
+class CreateCriteriaScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CriteriaScore
+        fields = ['score','judge']
+
+class CriteriaScoreListSerializer(serializers.ModelSerializer):
+    criteria = CriteriaListSerializer()
+    class Meta:
+        model = CriteriaScore
+        fields = ['id', 'team', 'criteria','judge', 'score',]
+
+                

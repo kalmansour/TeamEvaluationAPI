@@ -34,3 +34,12 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name
+
+class CriteriaScore(models.Model):
+    judge = models.CharField(max_length=12)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="score")
+    criteria = models.ForeignKey(Criteria, on_delete=models.CASCADE, related_name="score")
+    score = models.PositiveIntegerField(default=10, validators=[MinValueValidator(1), MaxValueValidator(100)])
+
+    def __str__(self):
+        return "%s: %s" % (self.criteria.name, str(self.score))
