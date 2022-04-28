@@ -32,4 +32,6 @@ urlpatterns = [
     path('user/login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(),name='token_refresh'),
     path('user/register/', views.UserAdminRegister.as_view(), name='user-register'),
+    path('score/<int:team_id>/<int:criteria_id>/',views.CreateCriteriaScoreView.as_view({'post': 'create'}), name='create-score'),
+    path('scores/',views.CriteriaScoreListView.as_view(), name='scores-list'), 
 ]
