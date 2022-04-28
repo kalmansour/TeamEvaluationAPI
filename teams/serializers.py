@@ -108,8 +108,14 @@ class CreateCriteriaScoreSerializer(serializers.ModelSerializer):
 
 class CriteriaScoreListSerializer(serializers.ModelSerializer):
     criteria = CriteriaListSerializer()
+    criteria_score = serializers.SerializerMethodField()
     class Meta:
         model = CriteriaScore
-        fields = ['id', 'team', 'criteria','judge', 'score',]
+        fields = ['id', 'team', 'criteria','judge', 'score','criteria_score']
+
+    def get_criteria_score(self, obj):
+        average_score = obj.score/ obj.criteria.weight *100
+        return {'name': str(obj.criteria), 'average_score': average_score,'weight':obj.criteria.weight, 'weighted_average' : obj.score}
+
 
                 
