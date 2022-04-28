@@ -86,7 +86,7 @@ class CreateCriteriaScoreView(viewsets.ModelViewSet):
         data = request.data
 
         new_score = CriteriaScore.objects.create(
-           team=Team.objects.get(id=self.kwargs['team_id']), criteria = Criteria.objects.get(id=self.kwargs['criteria_id']), judge = data['judge'], score = data['score'] )
+           team=Team.objects.get(id=self.kwargs['team_id']), criteria = Criteria.objects.get(id=self.kwargs['criteria_id']), judge = data['judge'], score = data['score'], note = data['note'] )
 
         new_score.save()
 

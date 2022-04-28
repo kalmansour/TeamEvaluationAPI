@@ -104,14 +104,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class CreateCriteriaScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = CriteriaScore
-        fields = ['score','judge']
+        fields = ['score','judge', 'note']
 
 class CriteriaScoreListSerializer(serializers.ModelSerializer):
     criteria = CriteriaListSerializer()
     criteria_score = serializers.SerializerMethodField()
     class Meta:
         model = CriteriaScore
-        fields = ['id', 'team', 'criteria','judge', 'score','criteria_score']
+        fields = ['id', 'team', 'criteria','judge', 'score','note','criteria_score']
 
     def get_criteria_score(self, obj):
         average_score = obj.score/ obj.criteria.weight *100
